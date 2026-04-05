@@ -103,7 +103,7 @@ const Dashboard = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">
-            Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Zorvyn</span>!
+            Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">John</span>!
           </h1>
           <p className="text-sm font-bold text-slate-500 dark:text-slate-400 mt-1 uppercase tracking-widest">
             Here's what's happening with your money today.

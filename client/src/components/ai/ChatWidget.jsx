@@ -25,7 +25,7 @@ const ChatWidget = () => {
   const { chatHistory, addChatMessage, clearChatHistory, addToast } = useStore();
   const { sendMessage, isConfigured } = useGroq();
   
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   

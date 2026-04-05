@@ -60,8 +60,8 @@ const Layout = ({ children }) => {
         />
 
         {/* Page Content */}
-        <main className="flex-1 p-4 lg:p-6 overflow-y-auto">
-          <div className="max-w-full mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <main className="flex-1 p-4 lg:p-8 overflow-y-auto">
+          <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {children}
           </div>
         </main>
