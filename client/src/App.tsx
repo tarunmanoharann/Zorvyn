@@ -1,10 +1,9 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Insights from './pages/Insights';
-import Toast from './components/ui/Toast';
+import { Toaster } from '@/components/ui/toaster';
 import ChatWidget from './components/ai/ChatWidget';
 
 function App() {
@@ -19,7 +18,7 @@ function App() {
       </Layout>
       
       {/* Global UI Components */}
-      <Toast />
+      <Toaster />
       <ChatWidget />
     </Router>
   );
