@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../../store/useStore';
 import { useGroq } from '../ai/useGroq';
-import { Card, CardHeader, CardTitle, CardContent } from '../ui/Card';
+import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 import { Sparkles, Loader2, RefreshCw, Calendar, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '../../lib/utils';

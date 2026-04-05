@@ -4,8 +4,8 @@ import { useStore } from '../store/useStore';
 import SummaryCards from '../components/dashboard/SummaryCards';
 import BalanceTrendChart from '../components/dashboard/BalanceTrendChart';
 import SpendingBreakdownChart from '../components/dashboard/SpendingBreakdownChart';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
-import Badge from '../components/ui/Badge';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
 import { 
   ArrowRight, 
   Sparkles,

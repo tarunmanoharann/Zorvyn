@@ -9,7 +9,7 @@ import {
   Sector,
   Legend
 } from 'recharts';
-import { Card, CardHeader, CardTitle, CardContent } from '../ui/Card';
+import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 
 const COLORS = [
   '#6366f1', '#10b981', '#f43f5e', '#f59e0b', '#8b5cf6', 
@@ -54,21 +54,21 @@ const SpendingBreakdownChart = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const getChartData = () => {
-    const expenses = transactions.filter(t => t.type === 'expense');
-    const totals = expenses.reduce((acc, t) => {
+    const expenses = transactions.filter((t: any) => t.type === 'expense');
+    const totals = expenses.reduce((acc: any, t: any) => {
       acc[t.category] = (acc[t.category] || 0) + t.amount;
       return acc;
     }, {});
 
-    const totalExpense = Object.values(totals).reduce((sum, val) => sum + val, 0);
+    const totalExpense = Object.values(totals).reduce((sum: any, val: any) => sum + val, 0) as number;
 
     return Object.entries(totals)
-      .map(([name, value]) => ({
+      .map(([name, value]: [string, any]) => ({
         name,
         value,
         percentage: ((value / totalExpense) * 100).toFixed(1)
       }))
-      .sort((a, b) => b.value - a.value);
+      .sort((a: any, b: any) => b.value - a.value);
   };
 
   const chartData = getChartData();
@@ -100,18 +100,20 @@ const SpendingBreakdownChart = () => {
                 paddingAngle={4}
                 stroke="none"
               >
-                {chartData.map((entry, index) => (
+                {chartData.map((_, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip 
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
+                    const item = payload[0];
+                    if (!item) return null;
                     return (
                       <div className="bg-white dark:bg-slate-900 p-3 border border-slate-200 dark:border-slate-800 rounded-lg shadow-lg">
-                        <p className="text-xs font-bold text-slate-500 uppercase">{payload[0].name}</p>
+                        <p className="text-xs font-bold text-slate-500 uppercase">{item.name}</p>
                         <p className="text-sm font-black text-indigo-600">
-                          ₹{payload[0].value.toLocaleString('en-IN')} ({payload[0].payload.percentage}%)
+                          ₹{item.value?.toLocaleString('en-IN')} ({item.payload.percentage}%)
                         </p>
                       </div>
                     );

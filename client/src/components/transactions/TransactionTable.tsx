@@ -10,8 +10,8 @@ import {
   MoreVertical
 } from 'lucide-react';
 import { format } from 'date-fns';
-import Badge from '../ui/Badge';
-import EmptyState from '../ui/EmptyState';
+import { Badge } from '../ui/badge';
+import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from '../ui/empty';
 import { cn } from '../../lib/utils';
 
 const TransactionTable = ({ onEdit, onDelete }) => {
@@ -59,7 +59,14 @@ const TransactionTable = ({ onEdit, onDelete }) => {
   };
 
   if (filteredTransactions.length === 0) {
-    return <EmptyState />;
+    return (
+      <Empty>
+        <EmptyHeader>
+          <EmptyTitle>No results found</EmptyTitle>
+          <EmptyDescription>Try adjusting your filters or search terms to find what you're looking for.</EmptyDescription>
+        </EmptyHeader>
+      </Empty>
+    );
   }
 
   const SortIcon = ({ column }) => {

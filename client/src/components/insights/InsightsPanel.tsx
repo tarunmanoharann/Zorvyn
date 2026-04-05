@@ -9,7 +9,7 @@ import {
   ArrowUpRight,
   ArrowDownRight
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '../ui/Card';
+import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 import { format, differenceInDays } from 'date-fns';
 import { cn } from '../../lib/utils';
 
@@ -46,33 +46,33 @@ const InsightsPanel = () => {
   const { transactions } = useStore();
 
   const getInsights = () => {
-    const expenses = transactions.filter(t => t.type === 'expense');
+    const expenses = transactions.filter((t: any) => t.type === 'expense');
     if (expenses.length === 0) return null;
 
     // Highest/Lowest spending category
-    const categoryTotals = expenses.reduce((acc, t) => {
+    const categoryTotals = expenses.reduce((acc: any, t: any) => {
       acc[t.category] = (acc[t.category] || 0) + t.amount;
       return acc;
     }, {});
     
-    const sortedCategories = Object.entries(categoryTotals).sort(([, a], [, b]) => b - a);
+    const sortedCategories = Object.entries(categoryTotals).sort(([, a]: [string, any], [, b]: [string, any]) => b - a);
     const highest = sortedCategories[0];
     const lowest = sortedCategories[sortedCategories.length - 1];
     
-    const totalExpense = Object.values(categoryTotals).reduce((sum, val) => sum + val, 0);
+    const totalExpense = Object.values(categoryTotals).reduce((sum: any, val: any) => sum + val, 0) as number;
 
     // Biggest single expense
-    const biggest = [...expenses].sort((a, b) => b.amount - a.amount)[0];
+    const biggest = [...expenses].sort((a: any, b: any) => b.amount - a.amount)[0] as any;
 
     // Average daily spending
-    const dates = expenses.map(t => new Date(t.date));
-    const minDate = new Date(Math.min(...dates));
-    const maxDate = new Date(Math.max(...dates));
+    const dates = expenses.map((t: any) => new Date(t.date));
+    const minDate = new Date(Math.min(...dates.map(d => d.getTime())));
+    const maxDate = new Date(Math.max(...dates.map(d => d.getTime())));
     const days = Math.max(1, differenceInDays(maxDate, minDate));
     const avgDaily = (totalExpense / days).toFixed(0);
 
     // Best saving month (Income - Expense)
-    const monthlyStats = transactions.reduce((acc, t) => {
+    const monthlyStats = transactions.reduce((acc: any, t: any) => {
       const month = format(new Date(t.date), 'MMM yyyy');
       if (!acc[month]) acc[month] = { income: 0, expenses: 0 };
       if (t.type === 'income') acc[month].income += t.amount;
@@ -81,7 +81,7 @@ const InsightsPanel = () => {
     }, {});
 
     const bestSavingMonth = Object.entries(monthlyStats)
-      .map(([month, stats]) => ({ month, savings: stats.income - stats.expenses }))
+      .map(([month, stats]: [string, any]) => ({ month, savings: stats.income - stats.expenses }))
       .sort((a, b) => b.savings - a.savings)[0];
 
     return [

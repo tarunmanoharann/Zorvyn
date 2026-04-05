@@ -12,9 +12,15 @@ import {
   AreaChart 
 } from 'recharts';
 import { format, subMonths, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns';
-import { Card, CardHeader, CardTitle, CardContent } from '../ui/Card';
+import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 
-const CustomTooltip = ({ active, payload, label }) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: { value: number }[];
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white dark:bg-slate-900 p-4 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl">
@@ -41,16 +47,16 @@ const BalanceTrendChart = () => {
       const monthEnd = endOfMonth(monthDate);
       const monthName = format(monthDate, 'MMM');
 
-      const monthTransactions = transactions.filter(t => 
+      const monthTransactions = transactions.filter((t) =>
         isWithinInterval(new Date(t.date), { start: monthStart, end: monthEnd })
       );
 
       const income = monthTransactions
-        .filter(t => t.type === 'income')
-        .reduce((sum, t) => sum + t.amount, 0);
+        .filter((t) => t.type === 'income')
+        .reduce((sum: number, t) => sum + t.amount, 0);
       const expenses = monthTransactions
-        .filter(t => t.type === 'expense')
-        .reduce((sum, t) => sum + t.amount, 0);
+        .filter((t) => t.type === 'expense')
+        .reduce((sum: number, t) => sum + t.amount, 0);
 
       data.push({
         name: monthName,

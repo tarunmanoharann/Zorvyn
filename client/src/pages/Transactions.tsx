@@ -5,7 +5,13 @@ import TransactionTable from '../components/transactions/TransactionTable';
 import AddTransactionModal from '../components/transactions/AddTransactionModal';
 import { Plus, Download, FileJson, FileSpreadsheet, Trash2, AlertTriangle } from 'lucide-react';
 import { exportToCSV, exportToJSON } from '../utils/exportUtils';
-import Modal from '../components/ui/Modal';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '../components/ui/dialog';
 import { cn } from '../lib/utils';
 
 const Transactions = () => {
@@ -125,40 +131,40 @@ const Transactions = () => {
       />
 
       {/* Delete Confirmation Modal */}
-      <Modal
-        isOpen={!!transactionToDelete}
-        onClose={() => setTransactionToDelete(null)}
-        title="Delete Transaction"
-        size="sm"
-      >
-        <div className="space-y-6">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 rounded-full bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center mb-4 ring-4 ring-rose-100/50 dark:ring-rose-900/10">
-              <AlertTriangle className="w-8 h-8 text-rose-600 dark:text-rose-400" />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Are you sure?</h3>
-            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-2">
+      <Dialog open={!!transactionToDelete} onOpenChange={(open) => !open && setTransactionToDelete(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Delete Transaction</DialogTitle>
+            <DialogDescription>
               This action cannot be undone. This will permanently delete the transaction from your records.
-            </p>
-          </div>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-6">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-full bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center mb-4 ring-4 ring-rose-100/50 dark:ring-rose-900/10">
+                <AlertTriangle className="w-8 h-8 text-rose-600 dark:text-rose-400" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Are you sure?</h3>
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={() => setTransactionToDelete(null)}
-              className="flex-1 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-black text-xs uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleDeleteConfirm}
-              className="flex-1 px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-rose-200 dark:shadow-none transition-all active:scale-95 flex items-center justify-center gap-2"
-            >
-              <Trash2 className="w-4 h-4" />
-              Delete
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setTransactionToDelete(null)}
+                className="flex-1 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-black text-xs uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                className="flex-1 px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-rose-200 dark:shadow-none transition-all active:scale-95 flex items-center justify-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" />
+                Delete
+              </button>
+            </div>
           </div>
-        </div>
-      </Modal>
+        </DialogContent>
+      </Dialog>
 
     </div>
   );

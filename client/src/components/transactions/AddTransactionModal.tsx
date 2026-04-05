@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from '../../store/useStore';
 import { useGroq } from '../ai/useGroq';
-import Modal from '../ui/Modal';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '../ui/dialog';
 import { CATEGORIES } from '../../data/mockData';
 import { Sparkles, Loader2, AlertCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
@@ -21,7 +26,7 @@ const AddTransactionModal = ({ isOpen, onClose, transactionToEdit }) => {
 
   const [isSuggesting, setIsSuggesting] = useState(false);
   const [isAiSuggested, setIsAiSuggested] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<{ amount?: string; merchant?: string; category?: string; date?: string }>({});
 
   useEffect(() => {
     if (transactionToEdit) {
@@ -56,8 +61,8 @@ const AddTransactionModal = ({ isOpen, onClose, transactionToEdit }) => {
   };
 
   const validate = () => {
-    const newErrors = {};
-    if (!formData.amount || formData.amount <= 0) newErrors.amount = "Amount must be positive";
+    const newErrors: { amount?: string; merchant?: string; category?: string; date?: string } = {};
+    if (!formData.amount || parseFloat(formData.amount) <= 0) newErrors.amount = "Amount must be positive";
     if (!formData.merchant) newErrors.merchant = "Merchant is required";
     if (!formData.category) newErrors.category = "Category is required";
     if (!formData.date) newErrors.date = "Date is required";
@@ -86,13 +91,12 @@ const AddTransactionModal = ({ isOpen, onClose, transactionToEdit }) => {
   };
 
   return (
-    <Modal 
-      isOpen={isOpen} 
-      onClose={onClose} 
-      title={transactionToEdit ? "Edit Transaction" : "Add Transaction"}
-      size="md"
-    >
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>{transactionToEdit ? "Edit Transaction" : "Add Transaction"}</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-6">
         
         {/* Type Toggle */}
         <div className="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl">
@@ -215,8 +219,9 @@ const AddTransactionModal = ({ isOpen, onClose, transactionToEdit }) => {
           {transactionToEdit ? "Update Transaction" : "Save Transaction"}
         </button>
       </form>
-    </Modal>
-  );
+    </DialogContent>
+  </Dialog>
+);
 };
 
 export default AddTransactionModal;

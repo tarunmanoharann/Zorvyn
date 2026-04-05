@@ -1,4 +1,3 @@
-import React from 'react';
 import { useStore } from '../../store/useStore';
 import { 
   Wallet, 
@@ -6,11 +5,21 @@ import {
   TrendingDown, 
   PiggyBank, 
   ArrowUpRight, 
-  ArrowDownRight 
+  ArrowDownRight,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-const SummaryCard = ({ title, value, icon: Icon, trend, colorClass, bgColorClass, iconColorClass }) => (
+interface SummaryCardProps {
+  title: string;
+  value: number | string;
+  icon: LucideIcon;
+  trend: number | string;
+  bgColorClass: string;
+  iconColorClass: string;
+}
+
+const SummaryCard = ({ title, value, icon: Icon, trend, bgColorClass, iconColorClass }: SummaryCardProps) => (
   <div className={cn(
     "p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group",
   )}>
@@ -33,12 +42,12 @@ const SummaryCard = ({ title, value, icon: Icon, trend, colorClass, bgColorClass
           <div className="flex items-center gap-2 mt-2">
             <span className={cn(
               "flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full",
-              trend >= 0 
+              Number(trend) >= 0 
                 ? "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400" 
                 : "bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400"
             )}>
-              {trend >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-              {Math.abs(trend)}%
+              {Number(trend) >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+              {Math.abs(Number(trend))}%
             </span>
             <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
               vs last month
@@ -66,18 +75,18 @@ const SummaryCards = () => {
     const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
     const prevYear = currentMonth === 0 ? currentYear - 1 : currentYear;
 
-    const getMonthStats = (month, year) => {
-      const monthTransactions = transactions.filter(t => {
+    const getMonthStats = (month: number, year: number) => {
+      const monthTransactions = transactions.filter((t: { date: string; type: string; amount: number }) => {
         const d = new Date(t.date);
         return d.getMonth() === month && d.getFullYear() === year;
       });
       
       const income = monthTransactions
-        .filter(t => t.type === 'income')
-        .reduce((sum, t) => sum + t.amount, 0);
+        .filter((t: { type: string }) => t.type === 'income')
+        .reduce((sum: number, t: { amount: number }) => sum + t.amount, 0);
       const expenses = monthTransactions
-        .filter(t => t.type === 'expense')
-        .reduce((sum, t) => sum + t.amount, 0);
+        .filter((t: { type: string }) => t.type === 'expense')
+        .reduce((sum: number, t: { amount: number }) => sum + t.amount, 0);
       
       return { income, expenses, balance: income - expenses };
     };
@@ -86,15 +95,15 @@ const SummaryCards = () => {
     const prev = getMonthStats(prevMonth, prevYear);
 
     const totalIncome = transactions
-      .filter(t => t.type === 'income')
-      .reduce((sum, t) => sum + t.amount, 0);
+      .filter((t: { type: string }) => t.type === 'income')
+      .reduce((sum: number, t: { amount: number }) => sum + t.amount, 0);
     const totalExpenses = transactions
-      .filter(t => t.type === 'expense')
-      .reduce((sum, t) => sum + t.amount, 0);
+      .filter((t: { type: string }) => t.type === 'expense')
+      .reduce((sum: number, t: { amount: number }) => sum + t.amount, 0);
     const totalBalance = totalIncome - totalExpenses;
     const savingsRate = totalIncome > 0 ? ((totalBalance / totalIncome) * 100).toFixed(1) : 0;
 
-    const getTrend = (curr, prev) => {
+    const getTrend = (curr: number, prev: number) => {
       if (prev === 0) return 0;
       return (((curr - prev) / prev) * 100).toFixed(1);
     };
@@ -131,7 +140,7 @@ const SummaryCards = () => {
         title: "Savings Rate",
         value: `${savingsRate}%`,
         icon: PiggyBank,
-        trend: 2.5, // Mock trend for simplicity
+        trend: 2.5,
         colorClass: "border-violet-500",
         bgColorClass: "bg-violet-50 dark:bg-violet-900/30",
         iconColorClass: "text-violet-600 dark:text-violet-400"

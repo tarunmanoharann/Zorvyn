@@ -2,7 +2,7 @@ import React from 'react';
 import { useStore } from '../store/useStore';
 import InsightsPanel from '../components/insights/InsightsPanel';
 import AIInsightsCard from '../components/insights/AIInsightsCard';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 import { 
   BarChart, 
   Bar, 
