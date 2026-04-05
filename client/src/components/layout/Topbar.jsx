@@ -74,7 +74,7 @@ const Topbar = ({ isSidebarOpen, setSidebarOpen, isMobile }) => {
             
             <div className="hidden sm:flex items-center gap-3 pl-2">
               <div className="text-right">
-                <p className="text-sm font-bold text-slate-900 dark:text-white leading-none">John Doe</p>
+                <p className="text-sm font-bold text-slate-900 dark:text-white leading-none">Zorvyn</p>
                 <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-tighter mt-1">
                   {role === 'admin' ? 'System Admin' : 'Read Only Access'}
                 </p>
